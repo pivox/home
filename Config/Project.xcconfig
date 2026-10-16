@@ -1,0 +1,4 @@
+// Shared defaults. Keep local signing choices out of generated project files.
+PRODUCT_BUNDLE_IDENTIFIER = fr.adeux.app
+ADEUX_CLOUD_CONTAINER = iCloud.fr.adeux.app
+#include? "Signing.local.xcconfig"

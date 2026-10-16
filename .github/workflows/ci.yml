@@ -1,0 +1,30 @@
+name: Validation
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: validation-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  swift:
+    name: Swift tests and repository checks
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Toolchain
+        run: |
+          xcodebuild -version
+          swift --version
+      - run: make validate
+      - run: make test
+      - run: make build
+  iphone:
+    name: iPhone simulator build
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - run: make ios-build
