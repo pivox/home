@@ -48,7 +48,10 @@ struct OnboardingView: View {
                         identityButton(.personOne, name: firstName.isEmpty ? "Première personne" : firstName)
                         identityButton(.personTwo, name: secondName.isEmpty ? "Deuxième personne" : secondName)
                     }
-                    Text("Ce choix attribue vos gestes à la bonne personne. Vous pourrez le changer dans Maison.")
+                    identityButton(.anyone, name: "Nous deux, sur ce même iPhone")
+                    Text(identity == .anyone
+                         ? "Un seul téléphone suffit : à chaque validation, vous indiquerez qui a fait la tâche. Vous pourrez le changer dans Maison."
+                         : "Ce choix attribue vos gestes à la bonne personne. Vous pourrez le changer dans Maison.")
                         .font(.caption).foregroundStyle(DeuxStyle.secondary)
                 }
                 Button {

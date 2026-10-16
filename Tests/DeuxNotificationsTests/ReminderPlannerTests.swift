@@ -20,6 +20,14 @@ struct ReminderPlannerTests {
         #expect(Set(result.map(\.taskID)) == Set([own.id, shared.id]))
     }
 
+    @Test func testSharedDeviceSchedulesEveryoneTasks() {
+        let one = task("Le linge", assignee: .personOne)
+        let two = task("Les courses", assignee: .personTwo)
+        let anyone = task("La vaisselle", assignee: .anyone)
+        let result = ReminderPlanner.plan(tasks: [one, two, anyone], person: .anyone, now: now)
+        #expect(Set(result.map(\.taskID)) == Set([one.id, two.id, anyone.id]))
+    }
+
     @Test func testNearestRemindersWinWhenSystemCapacityIsLimited() {
         let tasks = (1...80).reversed().map { offset -> HouseTask in
             var value = task("Tâche \(offset)", assignee: .anyone)

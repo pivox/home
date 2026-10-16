@@ -16,7 +16,7 @@ struct ProfileEditorView: View {
         _householdName = State(initialValue: store.householdName)
         _firstName = State(initialValue: store.personOneName)
         _secondName = State(initialValue: store.personTwoName)
-        _identity = State(initialValue: store.currentPerson == .personTwo ? .personTwo : .personOne)
+        _identity = State(initialValue: store.currentPerson)
     }
 
     private var isValid: Bool {
@@ -38,9 +38,12 @@ struct ProfileEditorView: View {
                     Picker("Je suis", selection: $identity) {
                         Text(firstName.isEmpty ? "Première personne" : firstName).tag(Assignee.personOne)
                         Text(secondName.isEmpty ? "Deuxième personne" : secondName).tag(Assignee.personTwo)
+                        Text("Nous deux, sur ce même iPhone").tag(Assignee.anyone)
                     }.pickerStyle(.inline)
                 } header: { Text("Mon identité sur cet appareil") }
-                  footer: { Text("Ce choix reste propre à cet appareil. Vos validations et vos rappels utilisent cette identité.") }
+                  footer: { Text(identity == .anyone
+                                 ? "Chaque validation demandera qui a fait la tâche. Les rappels couvrent toutes les tâches."
+                                 : "Ce choix reste propre à cet appareil. Vos validations et vos rappels utilisent cette identité.") }
             }
             .scrollContentBackground(.hidden).background(DeuxStyle.canvas)
             .navigationTitle("Notre équipe").inlineNavigationTitle()

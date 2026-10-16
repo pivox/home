@@ -55,6 +55,7 @@ for config in configs:
         'SWIFT_COMPILATION_MODE':'wholemodule' if release else 'singlefile',
         'ENABLE_TESTABILITY':'NO' if release else 'YES',
         'DEBUG_INFORMATION_FORMAT':'dwarf-with-dsym' if release else 'dwarf',
+        'ONLY_ACTIVE_ARCH':'NO' if release else 'YES',
         'SWIFT_ACTIVE_COMPILATION_CONDITIONS':'$(inherited)' if release else '$(inherited) DEBUG',
     }
     target = {

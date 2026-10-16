@@ -117,6 +117,20 @@ struct HouseholdStoreTests {
         #expect(store.completions.isEmpty)
     }
 
+    @Test func testSharedDeviceRecordsTheChosenCompleter() async throws {
+        let store = makeStore()
+        await store.load()
+        try store.createHousehold(name: "Maison", personOne: "A", personTwo: "B")
+        let task = HouseTask(title: "Vaisselle", assignee: .personOne)
+        try store.saveTask(task)
+        store.currentPerson = .anyone
+        #expect(store.isSharedDevice)
+        #expect(store.deviceName == "A et B")
+        #expect(throws: (any Error).self) { try store.completeTask(task, by: .anyone, at: Date()) }
+        try store.completeTask(task, by: .personTwo, at: Date())
+        #expect(store.completions.first?.completedBy == .personTwo)
+    }
+
     @Test func testLocalSharingFailsWithActionableError() async throws {
         let store = makeStore()
         await store.load()

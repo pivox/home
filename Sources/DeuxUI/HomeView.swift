@@ -137,7 +137,7 @@ struct HomeView: View {
                             .overlay(Circle().strokeBorder(DeuxStyle.paper, lineWidth: 3))
                     }
                 }
-                Label("Sur cet appareil : \(store.name(for: store.currentPerson))", systemImage: "person.crop.circle")
+                Label("Sur cet appareil : \(store.deviceName)", systemImage: store.isSharedDevice ? "person.2.circle" : "person.crop.circle")
                     .font(.subheadline).foregroundStyle(DeuxStyle.secondary)
                 Button { sheet = .profile } label: {
                     HStack {
@@ -163,8 +163,8 @@ struct HomeView: View {
                     }
                 }
                 Text(store.cloudEnabled
-                     ? "Invitez votre partenaire avec un lien iCloud. Chaque personne choisit son identité sur son propre appareil. Les modifications restent possibles hors connexion."
-                     : "Vos tâches sont enregistrées sur cet iPhone. Le partage n’est pas activé dans cette version.")
+                     ? "Invitez votre partenaire avec un lien iCloud, ou partagez simplement cet iPhone en choisissant « Nous deux » dans votre identité. Les modifications restent possibles hors connexion."
+                     : "Vos tâches sont enregistrées sur cet iPhone. Pour l’utiliser à deux, choisissez « Nous deux » dans votre identité : chaque validation demandera qui l’a faite.")
                     .font(.subheadline).foregroundStyle(DeuxStyle.secondary).lineSpacing(3)
                 if store.cloudEnabled {
                     Button(action: onShare) { Label("Inviter ou gérer le partage", systemImage: "person.badge.plus") }
