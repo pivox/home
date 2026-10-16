@@ -9,13 +9,14 @@
 | `make validate` dans le dépôt de livraison | **Réussis** : structure, skills, ressources, projet, syntaxe iOS et scripts |
 | `./scripts/render-preview.sh` | Build de `DeuxPreview` réussi, 4 captures natives SwiftUI macOS non vides ; inspection visuelle des 4 écrans |
 | `DeuxPreview --large-text` | Branche de mise en page accessible inspectée sur macOS ; ne simule pas entièrement le texte iPhone |
+| `make ios-build` sur GitHub Actions | **Build iPhone Simulator réussi**, Xcode 16.4 / Swift 6.1.2 ; [exécution initiale](https://github.com/pivox/home/actions/runs/38920709211) |
 | Icône | PNG 1024 × 1024 sans canal alpha, inspecté visuellement |
 | Génération Xcode | Projet et schémas déterministes ; validation dans un dossier temporaire sans modification des fichiers d’origine |
 | Relecture indépendante | Domaine, stockage, intégration iCloud, notifications, scripts et documentation relus ; cas d’annulation, départ du partage et préservation de la signature corrigés |
 
 ## Ce qui nécessite Xcode ou des appareils Apple
 
-`make ios-build` retourne un message explicite lorsque Xcode complet est absent. Le build iPhone est également prévu dans `.github/workflows/ci.yml`. Son statut effectif figure dans les exécutions GitHub Actions ; la présence du fichier ne signifie pas que le build est passé.
+`make ios-build` retourne un message explicite lorsque Xcode complet est absent. Le build iPhone a réussi sur le runner GitHub disposant de Xcode 16.4. La première exécution a aussi détecté une incompatibilité Bash 3.2 des scripts Swift lorsqu’aucun argument optionnel de compilateur n’est nécessaire ; elle a été reproduite, corrigée et vérifiée avec des tableaux vides. Les exécutions GitHub Actions fournissent le statut des révisions suivantes.
 
 La signature, le lancement iPhone, les invitations iCloud à froid/à chaud, la propagation sur deux comptes, le départ d’un partage, les rappels sur appareil, le niveau maximal de Dynamic Type et VoiceOver nécessitent les essais décrits dans `apple-setup.md`.
 

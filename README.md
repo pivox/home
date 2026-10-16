@@ -1,5 +1,7 @@
 # À deux
 
+[![Validation](https://github.com/pivox/home/actions/workflows/ci.yml/badge.svg)](https://github.com/pivox/home/actions/workflows/ci.yml)
+
 **Une maison. Deux équipiers.** Une application iPhone en SwiftUI pour se partager les petites choses du quotidien — sans classement, sans compétition, sans serveur à gérer.
 
 <p align="center"><img src="App/Assets.xcassets/AppIcon.appiconset/AppIcon.png" width="150" alt="Deux maisons vertes et un cœur abricot" /></p>

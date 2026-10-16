@@ -2,4 +2,4 @@
 set -euo pipefail
 source "$(dirname "$0")/swift-toolchain.sh"
 cd "$ADEUX_ROOT"
-exec swift test "${ADEUX_SWIFT_ARGS[@]}" "${ADEUX_COMPILER_ARGS[@]}" "${ADEUX_TEST_ARGS[@]}" "$@"
+exec swift test "${ADEUX_SWIFT_ARGS[@]}" ${ADEUX_COMPILER_ARGS[@]+"${ADEUX_COMPILER_ARGS[@]}"} ${ADEUX_TEST_ARGS[@]+"${ADEUX_TEST_ARGS[@]}"} "$@"
