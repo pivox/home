@@ -77,7 +77,7 @@ struct TodayView: View {
             }
             HStack(alignment: .top, spacing: 10) {
                 VStack(alignment: .leading, spacing: 7) {
-                    Text("Bonjour, \(store.name(for: store.currentPerson)).")
+                    Text("Bonjour, \(store.deviceName).")
                         .font(DeuxStyle.title()).foregroundStyle(DeuxStyle.ink)
                         .fixedSize(horizontal: false, vertical: true)
                         .accessibilityAddTraits(.isHeader)

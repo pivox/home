@@ -16,7 +16,7 @@ Native French household app for two people. Read `README.md` for setup and `docs
 
 ## Invariants
 
-- Keep `personOne` / `personTwo` stable. Names are editable labels. `currentPerson` belongs to this device; it is not the household’s shared owner. `.anyone` is an assignment choice, not a valid completion identity.
+- Keep `personOne` / `personTwo` stable. Names are editable labels. `currentPerson` belongs to this device; it is not the household’s shared owner. `.anyone` is an assignment choice; as `currentPerson` it means both people share this device, and each completion must then name `personOne` or `personTwo`. `.anyone` is never a valid completion identity.
 - Views call store methods and show their errors. Do not mutate published snapshots as a substitute for persistence. New tasks and completion records belong to the active household’s persistent store and inverse relationship.
 - `TaskRules.complete` creates an immutable historical snapshot and advances recurring due dates beyond today using the injected calendar. Insights sum completion snapshots once. Undo must preserve the latest-occurrence guard; deleting a task retains its history.
 - Local mode works without Apple configuration. A local save, accepted invitation or enabled capability does not prove synchronization. Preserve visible error/retry states and describe only observed CloudKit operations.

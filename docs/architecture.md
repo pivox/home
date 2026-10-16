@@ -16,7 +16,7 @@ Une action de la vue appelle `HouseholdStore`. Le store valide la demande, modif
 
 Le modèle Core Data est construit dans `ManagedModel.swift`. Un `HouseholdRecord` possède des `TaskRecord` et `CompletionRecord` avec relations inverses. Les snapshots des enfants sont stockés en données JSON. Les nouveaux objets sont affectés au magasin de leur foyer avant sauvegarde. Aucun exemple n’est ajouté automatiquement.
 
-Le nom du foyer et les deux prénoms sont partagés ; `currentPerson` et le foyer sélectionné sont propres à l’appareil. `personOne` et `personTwo` sont des rôles stables : modifier un prénom ne doit jamais inverser les attributions. `anyone` permet de laisser une tâche à prendre.
+Le nom du foyer et les deux prénoms sont partagés ; `currentPerson` et le foyer sélectionné sont propres à l’appareil. `personOne` et `personTwo` sont des rôles stables : modifier un prénom ne doit jamais inverser les attributions. `anyone` permet de laisser une tâche à prendre. Comme identité d’appareil, `anyone` signifie « Nous deux, sur ce même iPhone » : chaque validation demande alors qui a fait la tâche, et l’historique n’enregistre jamais `anyone`.
 
 ## Validation et récurrence
 
@@ -32,7 +32,7 @@ Le store observe les changements distants et les événements du conteneur ; une
 
 ## Rappels
 
-La permission est demandée après une action explicite. Seules les tâches non réalisées, futures, avec rappel activé, attribuées à la personne de cet iPhone ou à prendre, sont programmées. Le plan conserve les 60 échéances les plus proches. La file d’application est sérialisée pour éviter qu’une ancienne mise à jour réintroduise un rappel supprimé.
+La permission est demandée après une action explicite. Seules les tâches non réalisées, futures, avec rappel activé, attribuées à la personne de cet iPhone ou à prendre, sont programmées ; un iPhone partagé programme toutes les tâches. Le plan conserve les 60 échéances les plus proches. La file d’application est sérialisée pour éviter qu’une ancienne mise à jour réintroduise un rappel supprimé.
 
 Les demandes sont recalculées après changement des tâches, d’identité et retour au premier plan. Chaque routine programme son échéance actuelle ; sa prochaine occurrence sera programmée après sa validation et la prochaine actualisation de l’app. L’app ne promet aucun service de notification permanent en arrière-plan.
 

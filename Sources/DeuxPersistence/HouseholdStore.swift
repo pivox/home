@@ -27,7 +27,7 @@ public enum HouseholdStoreError: LocalizedError {
         case .missingTask: return "Cette tâche n’est plus disponible. Actualisez le foyer."
         case .missingCompletion: return "Cette validation n’est plus disponible."
         case .staleCompletion: return "Annulez d’abord la validation la plus récente de cette routine."
-        case .chooseIdentity: return "Choisissez votre identité dans Maison avant de valider une tâche."
+        case .chooseIdentity: return "Indiquez qui a réalisé cette tâche."
         case .cloudDisabled: return "Le partage n’est pas activé dans cette version. Vos tâches restent disponibles sur cet iPhone."
         case .unavailableShare: return "Le partage iCloud est indisponible pour le moment. Réessayez."
         case .invalidRecord: return "Une donnée du foyer est illisible. Elle a été conservée ; réessayez après la synchronisation."
@@ -227,12 +227,16 @@ public final class HouseholdStore: ObservableObject {
         try mutate { context.delete(try requireTask(task.id)) }
     }
 
-    public func completeTask(_ task: HouseTask, at date: Date = Date()) throws {
+    /// `true` when both people use this device; each completion then names who did it.
+    public var isSharedDevice: Bool { currentPerson == .anyone }
+
+    public func completeTask(_ task: HouseTask, by person: Assignee? = nil, at date: Date = Date()) throws {
         try mutate {
-            guard currentPerson != .anyone else { throw HouseholdStoreError.chooseIdentity }
+            let completer = person ?? currentPerson
+            guard completer != .anyone else { throw HouseholdStoreError.chooseIdentity }
             let record = try requireTask(task.id)
             let saved: HouseTask = try decode(record)
-            let result = try TaskRules.complete(task: saved, by: currentPerson, at: date, calendar: .current)
+            let result = try TaskRules.complete(task: saved, by: completer, at: date, calendar: .current)
             record.setValue(try JSONEncoder().encode(result.task), forKey: "payload")
             try write(result.completion, entity: "CompletionRecord", id: result.completion.id)
         }
@@ -277,6 +281,11 @@ public final class HouseholdStore: ObservableObject {
         case .personTwo: return personTwoName.isEmpty ? "Personne 2" : personTwoName
         case .anyone: return "À deux"
         }
+    }
+
+    /// Greeting label for this device: one first name, or both when the iPhone is shared.
+    public var deviceName: String {
+        isSharedDevice ? "\(name(for: .personOne)) et \(name(for: .personTwo))" : name(for: currentPerson)
     }
 
     public func clearError() { errorMessage = nil }

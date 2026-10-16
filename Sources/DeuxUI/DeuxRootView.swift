@@ -12,6 +12,7 @@ import DeuxPersistence
     @ViewState private var lastCompletion: TaskCompletion?
     @ViewState private var feedbackID = UUID()
     @ViewState private var requestNotificationsAfterEditor = false
+    @ViewState private var pendingCompletion: HouseTask?
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     public init(store: HouseholdStore, onShare: @escaping () -> Void = {}, onRequestNotifications: @escaping () -> Void = {}) {
@@ -59,6 +60,12 @@ import DeuxPersistence
             TaskEditorView(store: store, task: route.task, onRequestNotifications: { requestNotificationsAfterEditor = true })
                 .comfortableSheet()
         }
+        .confirmationDialog("Qui l’a fait ?", isPresented: Binding(get: { pendingCompletion != nil }, set: { if !$0 { pendingCompletion = nil } }), titleVisibility: .visible, presenting: pendingCompletion) { task in
+            ForEach(completerOrder(for: task), id: \.self) { person in
+                Button(store.name(for: person)) { completeTask(task, by: person) }
+            }
+            Button("Annuler", role: .cancel) {}
+        } message: { task in Text(task.title) }
         .alert("Impossible de terminer l’action", isPresented: Binding(get: { error != nil }, set: { if !$0 { error = nil } })) {
             Button("D’accord", role: .cancel) { error = nil }
         } message: { Text(error ?? "Réessayez dans un instant.") }
@@ -87,9 +94,20 @@ import DeuxPersistence
     }
 
     private func completeTask(_ task: HouseTask) {
+        if store.isSharedDevice { pendingCompletion = task }
+        else { completeTask(task, by: nil) }
+    }
+
+    /// On a shared iPhone, the assigned person is offered first.
+    private func completerOrder(for task: HouseTask) -> [Assignee] {
+        task.assignee == .personTwo ? [.personTwo, .personOne] : [.personOne, .personTwo]
+    }
+
+    private func completeTask(_ task: HouseTask, by person: Assignee?) {
+        pendingCompletion = nil
         do {
             let previousIDs = Set(store.completions.map(\.id))
-            try store.completeTask(task)
+            try store.completeTask(task, by: person)
             let completion = store.completions.first { !previousIDs.contains($0.id) && $0.taskID == task.id }
             withAnimation(reduceMotion ? nil : .easeInOut(duration: 0.22)) { lastCompletion = completion }
             let token = UUID()

@@ -13,7 +13,8 @@
 - **Maison** : vos prénoms, identité propre à chaque iPhone, bilan des efforts, historique et invitation iCloud.
 - Ajout/modification/suppression, notes, attribution et durée estimée.
 - Routines quotidiennes, hebdomadaires ou mensuelles ; annulation d’une validation accidentelle.
-- Sauvegarde locale hors connexion et intégration du partage CloudKit entre deux comptes Apple.
+- Utilisable à deux sur un seul iPhone (identité « Nous deux » : chaque validation demande qui l’a faite), sans compte iCloud.
+- Sauvegarde locale hors connexion et intégration facultative du partage CloudKit entre deux comptes Apple.
 - Rappels locaux facultatifs, demandés uniquement lorsque vous les activez.
 - Interface française, VoiceOver, texte agrandi et mouvement réduit pris en compte dans les composants.
 
