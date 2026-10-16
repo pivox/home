@@ -9,10 +9,14 @@
 | `make validate` dans le dépôt de livraison | **Réussis** : structure, skills, ressources, projet, syntaxe iOS et scripts |
 | `./scripts/render-preview.sh` | Build de `DeuxPreview` réussi, 4 captures natives SwiftUI macOS non vides ; inspection visuelle des 4 écrans |
 | `DeuxPreview --large-text` | Branche de mise en page accessible inspectée sur macOS ; ne simule pas entièrement le texte iPhone |
-| `make ios-build` sur GitHub Actions | **Build iPhone Simulator réussi**, Xcode 16.4 / Swift 6.1.2 ; [exécution initiale](https://github.com/pivox/home/actions/runs/38920709211) |
+| `make ios-build` sur GitHub Actions | **Build iPhone Simulator réussi**, Xcode 16.4 / Swift 6.1.2 ; [CI réussie](https://github.com/pivox/home/actions/runs/38921069473) |
 | Icône | PNG 1024 × 1024 sans canal alpha, inspecté visuellement |
 | Génération Xcode | Projet et schémas déterministes ; validation dans un dossier temporaire sans modification des fichiers d’origine |
 | Relecture indépendante | Domaine, stockage, intégration iCloud, notifications, scripts et documentation relus ; cas d’annulation, départ du partage et préservation de la signature corrigés |
+
+## Preuve CI
+
+La [CI du commit `6af8443`](https://github.com/pivox/home/actions/runs/38921069473) a terminé avec succès : **Swift tests and repository checks** et **iPhone simulator build**. Elle a exécuté `make validate`, `make test`, `make build` et `make ios-build` avec Xcode 16.4 / Swift 6.1.2. La mise à jour finale de ce compte rendu et du plan ne modifie aucun code, script ou réglage validé.
 
 ## Ce qui nécessite Xcode ou des appareils Apple
 
